@@ -1,13 +1,25 @@
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import './index.css'
+
+import LoginPage from './components/auth/LoginPage'
+import ProtectedRoute from './components/auth/ProtectedRoute'
+import DashboardLayout from './components/dashboard/DashboardLayout'
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold text-white mb-2">AdPilot</h1>
-        <p className="text-gray-400 text-lg">Amazon PPC Intelligence Dashboard</p>
-        <p className="text-gray-600 text-sm mt-4">Checkpoint 1 — Setup complete</p>
-      </div>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout />
+            </ProtectedRoute>
+          }
+        />
+        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
