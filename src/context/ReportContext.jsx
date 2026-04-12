@@ -4,10 +4,12 @@ const ReportContext = createContext(null)
 
 export function ReportProvider({ children }) {
   const [uploadId, setUploadId] = useState(null)
-  const [targetAcos, setTargetAcos] = useState(null)   // stored as decimal e.g. 0.28
+  const [targetAcos, setTargetAcos] = useState(null)
   const [strData, setStrData] = useState(null)
   const [placementData, setPlacementData] = useState(null)
   const [productData, setProductData] = useState(null)
+  const [insights, setInsights] = useState([])
+  const [summary, setSummary] = useState(null)
 
   const hasData = strData !== null && placementData !== null && productData !== null
 
@@ -18,6 +20,8 @@ export function ReportProvider({ children }) {
       strData, setStrData,
       placementData, setPlacementData,
       productData, setProductData,
+      insights, setInsights,
+      summary, setSummary,
       hasData,
     }}>
       {children}

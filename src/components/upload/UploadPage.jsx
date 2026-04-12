@@ -5,6 +5,7 @@ import {
   parsePlacementReport,
   parseAdvertisedProductsReport,
 } from '../../services/reportParser'
+import { generateInsights, buildStructuredSummary } from '../../services/insightEngine'
 import { useReportContext } from '../../context/ReportContext'
 import { useAuth } from '../../hooks/useAuth'
 import ReportUploader from './ReportUploader'
@@ -22,7 +23,7 @@ async function bulkInsert(table, rows, uploadId) {
 
 export default function UploadPage() {
   const { user } = useAuth()
-  const { setUploadId, setTargetAcos, setStrData, setPlacementData, setProductData } = useReportContext()
+  const { setUploadId, setTargetAcos, setStrData, setPlacementData, setProductData, setInsights, setSummary } = useReportContext()
 
   const [files, setFiles] = useState({ str: null, placement: null, product: null })
   const [targetAcosInput, setTargetAcosInput] = useState('')
@@ -127,15 +128,30 @@ export default function UploadPage() {
       setStatusMsg(`Saving ${product.length} products...`)
       await bulkInsert('product_data', product, uploadId)
 
-      // 4. Update React context → triggers dashboard render
+      // 4. Run insight engine
+      setStatusMsg('Running insight engine...')
+      const generatedInsights = generateInsights(str, placement, product, targetAcosDecimal)
+      const structuredSummary = buildStructuredSummary(str, placement, product, generatedInsights, targetAcosDecimal)
+
+      // 5. Store insights in Supabase
+      if (generatedInsights.length > 0) {
+        const { error: insightErr } = await supabase.from('insights').insert(
+          generatedInsights.map(i => ({ ...i, upload_id: uploadId }))
+        )
+        if (insightErr) console.warn('Insight storage failed:', insightErr.message)
+      }
+
+      // 6. Update React context → triggers dashboard render
       setUploadId(uploadId)
       setTargetAcos(targetAcosDecimal)
       setStrData(str)
       setPlacementData(placement)
       setProductData(product)
+      setInsights(generatedInsights)
+      setSummary(structuredSummary)
 
       setStatus('done')
-      setStatusMsg('All data saved successfully.')
+      setStatusMsg(`Done — ${generatedInsights.length} insights generated.`)
     } catch (e) {
       setStatus('error')
       setStatusMsg(e.message)
