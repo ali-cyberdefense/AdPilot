@@ -12,8 +12,7 @@ At every ⏸ STOP, pause and wait for Ali's explicit approval before proceeding.
 - ✅ Checkpoint 2 — Authentication (Supabase Auth, Google + email, protected routes)
 - ✅ Checkpoint 3 — Upload & Parse (drag-drop UI, full report parser, Supabase storage)
 - ✅ Checkpoint 4 — Insight Engine (all 10 rules, structured summary, Supabase storage)
-- ⬜ Checkpoint 5 — Dashboard Charts (next)
-- ⬜ Checkpoint 5 — Dashboard Charts
+- ✅ Checkpoint 5 — Dashboard Charts (MetricsSummary + 6 charts wired into full grid)
 - ⬜ Checkpoint 6 — Insight Cards UI
 - ⬜ Checkpoint 7 — AI Chat Panel
 - ⬜ Checkpoint 8 — UI Polish & Dark Mode
