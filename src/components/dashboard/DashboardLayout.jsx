@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import Navbar from '../common/Navbar'
 import UploadPage from '../upload/UploadPage'
 import { useReportContext } from '../../context/ReportContext'
@@ -10,18 +11,22 @@ import SpendTrendChart from '../charts/SpendTrendChart'
 import AsinPerformance from '../charts/AsinPerformance'
 import WastedSpendChart from '../charts/WastedSpendChart'
 import TopSearchTerms from '../charts/TopSearchTerms'
+import ChatPanel from '../chat/ChatPanel'
 
 export default function DashboardLayout() {
   const { hasData, loading } = useReportContext()
+  const [chatOpen, setChatOpen] = useState(false)
+
   return (
     <div className="min-h-screen bg-gray-950 flex flex-col">
-      <Navbar />
+      <Navbar chatOpen={chatOpen} onChatToggle={() => setChatOpen(o => !o)} />
       {loading
         ? <LoadingScreen />
         : hasData
           ? <DataView />
           : <UploadPage />
       }
+      <ChatPanel open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   )
 }

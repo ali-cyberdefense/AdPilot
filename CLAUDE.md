@@ -14,7 +14,7 @@ At every ⏸ STOP, pause and wait for Ali's explicit approval before proceeding.
 - ✅ Checkpoint 4 — Insight Engine (all 10 rules, structured summary, Supabase storage)
 - ✅ Checkpoint 5 — Dashboard Charts (MetricsSummary + 6 charts wired into full grid)
 - ✅ Checkpoint 6 — Insight Cards UI (styled cards, severity colors, expandable detail panels)
-- ⬜ Checkpoint 7 — AI Chat Panel
+- ✅ Checkpoint 7 — AI Chat Panel (slide-out panel, OpenAI GPT-4o, typing indicator, starter prompts)
 - ⬜ Checkpoint 8 — UI Polish & Dark Mode
 - ⬜ Checkpoint 9 — Deployment
 

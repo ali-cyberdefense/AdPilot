@@ -2,7 +2,7 @@ import { supabase } from '../../services/supabase'
 import { useAuth } from '../../hooks/useAuth'
 import { useReportContext } from '../../context/ReportContext'
 
-export default function Navbar() {
+export default function Navbar({ chatOpen, onChatToggle }) {
   const { user } = useAuth()
   const { hasData, setStrData, setPlacementData, setProductData, setInsights, setSummary, setUploadId, setTargetAcos } = useReportContext()
 
@@ -34,6 +34,22 @@ export default function Navbar() {
             className="text-gray-400 hover:text-indigo-400 text-sm transition-colors"
           >
             New report
+          </button>
+        )}
+        {hasData && (
+          <button
+            onClick={onChatToggle}
+            className={`flex items-center gap-1.5 text-sm px-3 py-1.5 rounded-lg border transition-colors ${
+              chatOpen
+                ? 'bg-indigo-600 border-indigo-500 text-white'
+                : 'border-gray-700 text-gray-400 hover:text-white hover:border-gray-600'
+            }`}
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            Ask AI
           </button>
         )}
         <button
